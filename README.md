@@ -1,2 +1,9 @@
 # jquey-comp-datatable
-JQuery component to paginate data
+It is a simple jquery component to paginate data
+
+* Future steps
+  * Improve CSS
+  * Add images on actions
+  * Provide pagination on server
+  
+Samples of How to use can be found in **data-table.sample.js**
