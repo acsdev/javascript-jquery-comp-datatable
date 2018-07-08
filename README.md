@@ -6,4 +6,4 @@ It is a simple jquery component to paginate data
   * Add images on actions
   * Provide pagination on server
   
-Samples of How to use can be found in **data-table.sample.js**
+Samples of how to use can be found in **data-table.sample.js**
