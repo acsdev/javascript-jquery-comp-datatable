@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="data-table.2.0.1.css" type="text/css">
+	<style>
+		/* Style the tab */
+
+		.tab {
+			overflow: hidden;
+			border: 1px solid #ccc;
+			background-color: #f1f1f1;
+		}
+
+		/* Style the buttons inside the tab */
+
+		.tab button {
+			background-color: inherit;
+			float: left;
+			border: none;
+			outline: none;
+			cursor: pointer;
+			padding: 14px 16px;
+			transition: 0.3s;
+			font-size: 17px;
+		}
+
+		/* Change background color of buttons on hover */
+
+		.tab button:hover {
+			background-color: #ddd;
+		}
+
+		/* Create an active/current tablink class */
+
+		.tab button.active {
+			background-color: #ccc;
+		}
+
+		/* Style the tab content */
+
+		.tabcontent {
+			display: none;
+			padding: 6px 12px;
+			border: 1px solid #ccc;
+			border-top: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="tab">
+		<button class="tablinks" onclick="openTAB(event, 't01')" id="btnT1">Memory 01</button>
+		<button class="tablinks" onclick="openTAB(event, 't02')" id="btnT2">Memory 02</button>
+		<button class="tablinks" onclick="openTAB(event, 't03')" id="btnT3">Memory 03</button>
+		<button class="tablinks" onclick="openTAB(event, 't04')" id="btnT4">Server 01</button>
+		<button class="tablinks" onclick="openTAB(event, 't05')" id="btnT5">Server 02</button>
+		<button class="tablinks" onclick="openTAB(event, 't06')" id="btnT6">Server 03</button>
+	</div>
+	<div id="t01" class="tabcontent">
+		<div id="comp-datatable1"></div>
+	</div>
+	<div id="t02" class="tabcontent">
+		<div id="comp-datatable2"></div>
+	</div>
+	<div id="t03" class="tabcontent">
+		<div id="comp-datatable3"></div>
+	</div>
+	<div id="t04" class="tabcontent">
+		<div id="comp-datatable4"></div>
+	</div>
+	<div id="t05" class="tabcontent">
+		<div id="comp-datatable5"></div>
+	</div>
+	<div id="t06" class="tabcontent">
+		<div id="comp-datatable6"></div>
+	</div>
+	<!--|-->
+	<script type="text/javascript">
+		var openTAB = function (evt, tabId) {
+			var i, tabcontent, tablinks;
+
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(" active", "");
+			}
+
+			document.getElementById(tabId).style.display = "block";
+			evt.currentTarget.className += " active";
+		}
+		document.getElementById('btnT1').click(); 
+	</script>
+	<script src="./jquery.v3.3.1.js"></script>
+	<!--|-->
+	<script src="./data-table.2.0.1.js"></script>
+	<script src="./data-table.sample.js"></script>
+</body>
+
+</html>

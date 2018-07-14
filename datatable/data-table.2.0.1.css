@@ -1,0 +1,135 @@
+.mark-green  {border: green solid 1px;}
+.mark-yellow {border: yellow solid 1px;}
+.mark-red {border: red solid 1px;}
+
+.container-datatable table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.container-datatable table td, table th {
+    border: 1px solid #ddd;
+    padding: 6px;
+}
+
+.container-datatable table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.container-datatable table tr:hover {
+    background-color: #ddd;
+}
+
+.container-datatable table th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: left;
+    color: #2e6e9e;
+    background-color: #dfeffc;
+}
+
+.container-datatable table .cellfullmarkunmark {
+    width: 20px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.container-datatable tbody {
+    display: none;
+}
+
+.container-datatable table th.centerColumn, table td.centerColumn {
+    text-align: center;
+}
+
+.container-datatable a.container-datatable-table-icon {
+    cursor: pointer;
+    display: inline-block;
+    padding: .4em 1em;
+    border-radius: 3px;
+}
+
+.container-datatable table tbody tr td div.actions {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+.container-datatable table tbody tr td div.actions a.actionIcon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    text-indent: -9999px;
+    margin: auto;
+}
+
+.container-datatable table tbody tr td div.actions a.actionView {
+    background: url(./img/actions.png) transparent no-repeat;
+    background-position: -0px;
+}
+
+.container-datatable table tbody tr td div.actions a.actionAbort {
+    background: url(./img/actions.png) transparent no-repeat;
+    background-position: -24px;
+}
+
+.container-datatable table tbody tr td div.actions a.actionDownload {
+    background: url(./img/actions.png) transparent no-repeat;
+    background-position: -48px;
+}
+
+.container-datatable table tbody tr td div.actions a.spacer {
+    margin-right: 5px;
+}
+
+.container-datatable-pg {
+    height: 45px;
+    padding-top: 10px;
+    text-align: center;
+    vertical-align: middle;	
+}
+
+.container-datatable-pg input {
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+    padding: 6px 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.container-datatable-pg a.pgbtn {
+    padding: 7px;
+    margin: 0 5px 0 5px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: px;
+    background-color: #2e6e9e;
+    border-top: 1px solid #dfeffc;
+    border-left: 1px solid #dfeffc;
+    border-right: 1px solid #dfeffc;
+    border-bottom: 1px solid #dfeffc;
+    font-size: 14px;
+    font-weight: 600;
+    color: #FFFFFF;
+    font-family: arial;
+    text-decoration: none;
+    outline: none;
+}
+
+.container-datatable-pg a.disabled.pgbtn {
+    color: currentColor;
+	cursor: not-allowed;
+	opacity: 0.5;
+}
+
+.container-datatable-pg a.pgbtn:hover:enabled, .container-datatable-pg a.pgbtn:hover:active {
+    background: #3cb0fd;
+    background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+    text-decoration: none;
+}
