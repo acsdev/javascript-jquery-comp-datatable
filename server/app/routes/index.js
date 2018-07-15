@@ -5,7 +5,7 @@ module.exports  = function(app) {
     app.get('/pageabledata/mocklist',function(req, res) {
 
         let _page         = parseInt( !req.query.page ? 1 : req.query.page );
-        let _pageSize     = parseInt( !req.query.pageSize ? 10 : req.query.pageSize );
+        let _pageSize     = parseInt( !req.query.size ? 10 : req.query.size );
 
         // USE THIS IF PAGE STARTS FROM 0
         // _page = ( _page == 0 ? 1 : page - 1); // BECAUSE PAGE STARTS FROM 0
@@ -15,7 +15,6 @@ module.exports  = function(app) {
         let tmp   = [];
         let limit = row + _pageSize;    
 
-        console.log(limit);
         for ( let itemIndex = row; itemIndex < limit; itemIndex++ ) {
             let item = _sourceData[itemIndex];
             if (item) {
@@ -24,6 +23,10 @@ module.exports  = function(app) {
         }
 
         console.log('Page: ' +  _page + ' Pagesize: ' + _pageSize + ' Row: ' + row);
-        res.status( 200 ).json( tmp );
+        let pageble = {
+            content: tmp,
+            rowCount: _sourceData.length
+        }
+        res.status( 200 ).json( pageble );
     });
 };

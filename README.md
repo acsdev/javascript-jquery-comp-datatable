@@ -1,9 +1,11 @@
-# jquey-comp-datatable
+# Pagination component built on jquery
 It is a simple jquery component to paginate data
 
-* Future steps
-  * Improve CSS
-  * Add images on actions
-  * Provide pagination on server
-  
+* Features
+	* Json as source of data (pretty good to work with **RESTServices**)
+	* Memory pagination
+	* Server pagination (to mock server pagination is necessary start nodejs in **server folder**)
+	* Provide multi-select rows
+	* Capable to read nested json attributes
+    
 Samples of how to use can be found in **data-table.sample.js**
