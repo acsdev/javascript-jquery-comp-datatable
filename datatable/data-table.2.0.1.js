@@ -49,7 +49,7 @@
             idInputPage         :'cpage',
             idInputTotal        :'tpage',
             classDivDataTable   :'container-datatable',
-            classDivDataPaginate:'container-datatable-pg',
+            classDivDataPaginate:'container-datatable-pg    ',
             classLinkPagination :'pgbtn',
             textActionColumn    :'Actions',
             classDisabled       :'disabled',
@@ -98,6 +98,7 @@
             LBLLast              : 'Last »',
             LBLPage              : 'Page',
             LBLOf                : 'of',
+            msgLoadOnServerPag   : 'Getting data.',
             msgDataNotFoundPag   : 'Data not found.',
             msgErrorOnServerPag  : 'Error on get the date, check the log or your connection.'
         });
@@ -216,7 +217,7 @@
             $(_selectors.divPagination).show();
             if ( _arrayOnScreen.length == 0 ) {
                 $(_selectors.divPagination).hide();
-                var numberOfColumns = $( _createComponentOnScreen ).find('th').length;
+                var numberOfColumns = $( _selectors.thead ).find('th').length;
                 var adiviceTD = $('<td>', { text: _defaultSettings.msgDataNotFoundPag, align: 'center', colspan: numberOfColumns }) 
                 $( _selectors.tbody ).empty();
                 $( _selectors.tbody ).append( $('<tr>').append( $(adiviceTD) ));
@@ -243,6 +244,7 @@
                 // if (v.indexOf('00:00:00') != -1) {
                 //     v = v.substring(0, v.indexOf('00:00:00'));
                 // }
+
                 return v.substring(0, v.lastIndexOf(':'));
             }
             return value;
@@ -409,7 +411,6 @@
             $
             .ajax( ajaxconfig )
             .done(function( result, textStatus, jqXHR ) {
-
                 var count      = _getWithProps( result, config.attributeTotalRows );
                 _arrayOnScreen = _getWithProps( result, config.attributeData );                
 
@@ -426,6 +427,7 @@
                 $(adiviceTD).text( _defaultSettings.msgErrorOnServerPag );
                 $( _selectors.tbody ).empty();
                 $( _selectors.tbody ).append( $('<tr>').append( $(adiviceTD) ));
+                $( _selectors.tbody ).show();
             })
         }
 
