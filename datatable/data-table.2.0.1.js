@@ -98,7 +98,7 @@
             LBLLast              : 'Last »',
             LBLPage              : 'Page',
             LBLOf                : 'of',
-            msgLoadOnServerPag   : 'Getting data.',
+            msgLoadOnServerPag   : 'Getting data',
             msgDataNotFoundPag   : 'Data not found.',
             msgErrorOnServerPag  : 'Error on get the date, check the log or your connection.'
         });
@@ -254,7 +254,8 @@
             if ( (! animation) || (animation == 'undefined')) animation = _constants.ANIMATION_TRUE;
             
             $( _selectors.tbody ).empty();
-            $( _selectors.tbody ).hide();
+            $( _selectors.tbody ).show();
+
             $.each(arrayOfDataToRender, function() {
                 var dataTableItem = this;
                 
@@ -310,12 +311,12 @@
                     $(tr).append( $(td) );
                 }
     
-                $( _selectors.tbody ).append( $(tr) );
-    
+                if ( animation === _constants.ANIMATION_TRUE ) {
+                    $( _selectors.tbody ).animate({opacity: 1}, 100, function() { $( _selectors.tbody ).append( $(tr) )} );
+                } else {
+                    $( _selectors.tbody ).append( $(tr) );
+                }
             });
-            
-            animation === _constants.ANIMATION_TRUE ? $( _selectors.tbody ).fadeIn('slow') : $( _selectors.tbody ).show();
-            
         }
 
         var _checkedRowsController = function(element, value) {
@@ -408,6 +409,14 @@
             $( _selectors.tbody ).empty();
             $( _selectors.tbody ).append( $('<tr>').append( $(adiviceTD) ));
 
+            var _getDataInterval = window.setInterval(function() {
+                if ( $(adiviceTD).html().length > ( _defaultSettings.msgLoadOnServerPag.length + 24) ) {
+                    $(adiviceTD).html( _defaultSettings.msgLoadOnServerPag );
+                } else {
+                    $(adiviceTD).html( ' < '  + $(adiviceTD).html() + ' > ' );
+                }
+            }, 500);
+
             $
             .ajax( ajaxconfig )
             .done(function( result, textStatus, jqXHR ) {
@@ -428,7 +437,10 @@
                 $( _selectors.tbody ).empty();
                 $( _selectors.tbody ).append( $('<tr>').append( $(adiviceTD) ));
                 $( _selectors.tbody ).show();
-            })
+            }) 
+            .always(function() {
+                window.clearInterval( _getDataInterval );
+            });
         }
 
         var _errorHandler = function(errs) {
@@ -566,7 +578,7 @@
 
             _prepareEvents();
 
-            $(_selectors.linkFirst).click();
+            _goToPage( 1 );
             
             return _component;
         }
@@ -581,7 +593,7 @@
                 _arrayOnScreen  = [];
                 _sourceData.queryStringParams = newDataSourceInfo.queryStringParams;
                 
-                $(_selectors.linkFirst).click();
+                _goToPage( 1 );
 
                 return _component;
             }
@@ -592,7 +604,7 @@
                 _sourceData = [].concat( options ) //DEFENSE PROG.
                 _totalPages = Math.floor(_sourceData.length / _pageSize) + (_sourceData.length % _pageSize == 0 ? 0 : 1);
     
-                $(_selectors.linkFirst).click();
+                _goToPage( 1 );
 
                 return _component;
                 

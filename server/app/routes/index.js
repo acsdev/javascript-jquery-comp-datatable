@@ -1,8 +1,21 @@
+var Thread = {
+    sleep: function(ms) {
+        var start = Date.now()            
+        while (true) {
+            var clock = (Date.now() - start);
+            if (clock >= ms) break;
+        }
+        
+    }
+};
+
 var _sourceData = require('../api/dataList.js');
 
 module.exports  = function(app) {
     
     app.get('/pageabledata/mocklist',function(req, res) {
+
+        Thread.sleep(1500);
 
         let _page         = parseInt( !req.query.page ? 1 : req.query.page );
         let _pageSize     = parseInt( !req.query.size ? 10 : req.query.size );
