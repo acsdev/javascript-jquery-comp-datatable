@@ -56,14 +56,11 @@
             classDivIcons       :'actions',
             classMarkerColumn   :'centerColumn',
             classActionColumn   :'centerColumn',
-            classAction_SPACER  :'spacer',
-            classAction_VIEW    :'actionIcon actionView',
-            classAction_CANCEL  :'actionIcon actionAbort'
         }
 
-        var _cssActionTypes = {
-            VIEW: _attributes.classAction_VIEW,
-            CANCEL: _attributes.classAction_CANCEL,
+        var _actionTypes = {
+            VIEW: {class:'fas fa-info-circle', style:'font-size: 24px'},
+            CANCEL: {class:'fas fa-trash-alt', style:'font-size: 24px'},
         };
         
         var _selectors = {
@@ -294,18 +291,24 @@
                 if (_actions.length > 0) {
                     var td   = $('<td/>', {class: _attributes.classActionColumn});
                     var div   = $('<div/>',{class: _attributes.classDivIcons});
+
                     $.each( _actions, function( actionIndex ) {
                         var action = this;
-                        var a    = $('<a/>', {                   
+
+                        var a    = $('<a/>', {
                             href: '#',
                             title: action.title,
-                            class: _cssActionTypes[action.type] +' '+ _attributes.classAction_SPACER, 'click': function(){ action.actClick( dataTableItem ) }
-                        });    
-                        if (_actions.length == (actionIndex + 1) ) { 
-                            // REMOVE SPACE ON LAST ICON
-                            $(a).removeClass(_attributes.classAction_SPACER);
-                        }
+                            style: 'color:#a9a9a9',
+                        });
+                        var icon = $('<i/>', _actionTypes[action.type] );
+                        
+                        $(icon).click( function(){ action.actClick( dataTableItem ) });
+                        $( a ).append( icon );
                         $(div).append( $(a) );
+
+                        if ( _actions.length > (actionIndex + 1)) {
+                            $(div).append( $('<span />',{  style:'margin-right: 10px' }) );
+                        }
                     });
                     $(td).append( $(div) );
                     $(tr).append( $(td) );
@@ -537,7 +540,6 @@
             _TYPE            = Array.isArray(setts.sourceData) ? 'MEMORY' : 'SERVER';
 
             _firstPageIsZero = setts.firstPageIsZero;
-            _actions         = setts.actions;
             
             _allowCheckRows  = setts.allowCheckRows;
             _keyObject       = setts.keyObject;
