@@ -1,11 +1,11 @@
 {
-  "name": "Mock pagination",
-  "version": "1.0.0",
-  "description": "Mock of pagination data",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+	"name": "MockPagination",
+	"version": "1.0.0",
+	"description": "Mock of pagination data",
+	"main": "index.js",
+	"scripts": {
+		"start": "nodemon server.js -w ../datatable"
+	},
+	"author": "",
+	"license": "ISC"
 }
