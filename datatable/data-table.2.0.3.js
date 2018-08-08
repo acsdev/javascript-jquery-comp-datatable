@@ -1,8 +1,8 @@
 /**
- * Componente para paginação de dados em memória.
- * Base do componente HTML / CSS / Javascript(JQuery)
+ * Simple pagination for HTML pages
+ * Built on HTML / CSS / Javascript(JQuery)
  * 
- * Exemplo de utilização pode ser encontrado no arquivo data-table-sample.js
+ * Samples can be found at data-table-sample.js
  *       
  * @author allansantos
  */
@@ -30,6 +30,8 @@
         var _keyObject       = null;
         var _checkObject     = null;
         var _allowCheckRows  = null;
+
+        var _fetchOnMount    = null;
 
         var _constants = {
             ANIMATION_TRUE     : 'ANIMATION_TRUE',
@@ -89,6 +91,7 @@
             sourceData           : [],
             currentPage          : 1,
             pageSize             : 10,
+            fetchOnMount         : true,
             LBLFirst             : 'First «',
             LBLPrevious          : 'Previous ‹',
             LBLNext              : 'Next ›',
@@ -165,28 +168,9 @@
             }
         }
 
-        var _keepCheckedAndUncheckItens = function() {
-
-            // UNMARK ALL SELECTS
-            $(_selectors.inputTypeCheck).prop('checked', false); 
-
-            // REMARK DEPENDING ON _arrayOfChecked CONTENT
-            for ( index in _arrayOnScreen ) {
-                var element   = _arrayOnScreen[index];
-                var elementID = parseInt( element[_keyObject] );
-
-                if ( _arrayOfChecked.indexOf( element[_keyObject] ) > -1 ) {
-                    var checkBox = $('#'.concat(_attributes.idCheckBoxSimple.concat( elementID )));
-                    $(checkBox).prop('checked', true);
-                }
-            }
-        }
-
         var _afterPaginate = function() {
 
-            _keepCheckedAndUncheckItens();
-
-            $(_selectors.inputCurrentPage).val( _currentPage );
+                        $(_selectors.inputCurrentPage).val( _currentPage );
             $(_selectors.inputTotalPages).val( _totalPages );
             if ( $( _selectors.inputCurrentPage ).attr('type') === 'number' ) {
                 $( _selectors.inputCurrentPage ).attr('max', _totalPages);
@@ -194,9 +178,10 @@
 
             $( _selectors.checkBoxAll ).prop('checked',false);
 
-            if ( _totalPages > 1) {
+            if ( _totalPages >= 1) {
                 $( _selectors.divPaginationLinks).attr('href','#');
-                $( _selectors.divPaginationLinks).removeClass(_attributes.classDisabled);                
+                $( _selectors.divPaginationLinks).removeClass(_attributes.classDisabled);
+                
                 if (_currentPage == 1) {
                     $( _selectors.linkFirst ).addClass(_attributes.classDisabled);
                     $( _selectors.linkFirst ).removeAttr('href');
@@ -211,13 +196,20 @@
                 }
             }
 
-            $(_selectors.divPagination).show();
+           
             if ( _arrayOnScreen.length == 0 ) {
-                $(_selectors.divPagination).hide();
+                
                 var numberOfColumns = $( _selectors.thead ).find('th').length;
                 var adiviceTD = $('<td>', { text: _defaultSettings.msgDataNotFoundPag, align: 'center', colspan: numberOfColumns }) 
                 $( _selectors.tbody ).empty();
                 $( _selectors.tbody ).append( $('<tr>').append( $(adiviceTD) ));
+            }
+
+            if ( _totalPages == 1) {
+                $(_selectors.divPagination).hide();
+            }
+            if ( _totalPages > 1) {
+                $(_selectors.divPagination).show();
             }
         }
 
@@ -261,6 +253,11 @@
                 // CELLS
                 if (_allowCheckRows) {  
                     var checked = dataTableItem[_checkObject];
+                    if (! checked ) checked = false;
+                    //
+                    if (checked == false && _arrayOfChecked.indexOf( dataTableItem[_keyObject] ) > -1 ) {
+                        checked = true;
+                    }
                     //
                     var td = $('<td/>', {class: _attributes.classMarkerColumn});
                     $(td).append($('<input/>',{
@@ -359,12 +356,13 @@
     
             $(document).on('change',  _selectors.checkBoxAll, function() { 
                 var value = $(this).prop('checked');
-
-                $( _arrayOnScreen ).each(function() {
-                    _checkedRowsController(this, value);
-                });
-                
-                _render( _arrayOnScreen, _constants.ANIMATION_FALSE );
+                if ( _arrayOnScreen.length > 0 ) {
+                    $( _arrayOnScreen ).each(function() {
+                        _checkedRowsController(this, value);
+                    });
+                    
+                    _render( _arrayOnScreen, _constants.ANIMATION_FALSE );
+                }
             });
         }
     
@@ -380,7 +378,7 @@
                 }
                 return tmp;
             } else {
-                tmp = [].concat(elements);
+                tmp = [].concat(_sourceData);
             }
             
             if ( _allowCheckRows ) {
@@ -455,7 +453,6 @@
         }
         
         /**
-         * 
          * @param {*} setts entrey configuration
          */
         var _createComponentOnScreen = function( setts ) {
@@ -549,6 +546,7 @@
             _sourceFields    = setts.sourceFields;
             _currentPage     = setts.currentPage;
             _pageSize        = setts.pageSize;
+            _fetchOnMount    = setts.fetchOnMount;
 
             _createComponentOnScreen( setts );
 
@@ -580,11 +578,18 @@
 
             _prepareEvents();
 
-            _goToPage( 1 );
+            if (_fetchOnMount) {
+                _goToPage( 1 );
+            }
             
             return _component;
         }
 
+        /**
+         * Rebuilt datatable.
+         * If you are using memory pagination options must be an array of new elements.
+         * If you are using server pagination options must be an objet json with new queryStringParams params
+         */
         this.refresh = function( options ) {
             
             if (_TYPE === 'SERVER') {
@@ -615,6 +620,9 @@
             throw new Error('type must be defined');
         };
 
+        /**
+         *  Return an array of selected elements in all pages
+         */
         this.getCheckedItens = function() {
             return [].concat(_arrayOfChecked);
         };
